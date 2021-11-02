@@ -1,0 +1,149 @@
+body {
+  margin: 0;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  justify-content: center;
+  align-items: center;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  background: rgb(253, 17, 29);
+  background: linear-gradient(
+    90deg,
+    rgba(253, 17, 29, 1) 0%,
+    rgba(253, 29, 29, 1) 50%,
+    rgba(252, 176, 69, 1) 100%
+  );
+}
+
+.container-button {
+  margin: 1rem;
+}
+
+.container-card {
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  width: 65%;
+  margin-top: 1rem;
+}
+
+@keyframes shake {
+  0% {
+    transform: translate(1px, 1px) rotate(0deg);
+  }
+  10% {
+    transform: translate(-1px, -2px) rotate(-1deg);
+  }
+  30% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  60% {
+    transform: translate(-3px, 1px) rotate(-2deg);
+  }
+  90% {
+    transform: translate(1px, 2px) rotate(0deg);
+  }
+  100% {
+    transform: translate(1px, -2px) rotate(-1deg);
+  }
+}
+
+.shake:hover {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+.item {
+  flex: 0 25%;
+  margin-bottom: 1.5rem;
+  transition: all 250ms;
+}
+
+.scene {
+  height: 130px;
+  perspective: 600px;
+}
+
+.card {
+  position: relative;
+  border: 5px solid #eee;
+  width: 70%;
+  height: 100%;
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transform-origin: center right;
+  transition: transform 1s;
+}
+
+.card.is-flipped {
+  transform: translateX(-100%) rotateY(-180deg);
+}
+
+.card__face {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+}
+
+.card__face--back {
+  background: rgb(65, 59, 59);
+  transform: rotateY(180deg);
+}
+
+/* CSS */
+.button {
+  align-items: center;
+  background-clip: padding-box;
+  background-color: #fa7000;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  box-shadow: rgba(0, 0, 0, 0.02) 0 1px 3px 0;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  justify-content: center;
+  line-height: 1.25;
+  margin: 0;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+  position: relative;
+  text-decoration: none;
+  transition: all 250ms;
+}
+
+.button:hover,
+.button:focus {
+  background-color: #fb8332;
+  box-shadow: rgba(0, 0, 0, 0.1) 0 4px 12px;
+}
+
+.button:hover {
+  transform: translateY(-1px);
+}
+
+.button:active {
+  background-color: #c85000;
+  box-shadow: rgba(0, 0, 0, 0.06) 0 2px 4px;
+  transform: translateY(0);
+}
+
+.counter {
+  background-color: #fa7000;
+  border-radius: 0.25rem;
+  color: #fff;
+  cursor: no-drop;
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  margin: 0;
+  margin-left: 2rem;
+  min-height: 3rem;
+  padding: calc(0.875rem - 1px) calc(1.5rem - 1px);
+}
