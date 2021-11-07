@@ -19,8 +19,9 @@ function App() {
 
   //Select cards based on index (0 -pokomon 1- naruto)
   const setCardData = () => {
-    const cards = Data.CARD_DATA[randomIntFromInterval(1, 2)]
-    const GAME_DATA = shuffle(Array.from({ length: 2 }, () => shuffle(cards).slice(0, 6)).flat().flat());
+    const cards = Data.CARD_DATA[randomIntFromInterval(1, 3)]
+    const playing_card = shuffle(cards).slice(0, 6);
+    const GAME_DATA = shuffle(Array.from({ length: 2 }, () => playing_card).flat().flat());
     setData(GAME_DATA);
   }
 

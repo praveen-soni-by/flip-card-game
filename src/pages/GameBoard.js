@@ -1,21 +1,29 @@
 import React from 'react';
 import Card from '../components/Card';
-import useAudio from '../hooks/useAudio';
+import Sound from "../data/Sound";
 
 const COUNTER = 180;
 
 function GameBoard(props) {
   const [cards, setCards] = React.useState([]);
   const [counter, setCounter] = React.useState(COUNTER);
-
   const [selectedCard, setSelectedCard] = React.useState([]);
-  const [playing, toggle] = useAudio("./assets/sound/card-flip.mp3");
+  const [isPlaying, setPlaying] = React.useState(false);
+
+
+  React.useEffect(() => {
+    if (isPlaying) {
+      Sound.BackGroundSound.play()
+    } else {
+      Sound.BackGroundSound.pause()
+    }
+  }, [isPlaying]);
+
 
   const selectedCards = (index, cardId) => {
-    toggle();
     if (selectedCard.findIndex(data => data?.index === index) === -1 && selectedCard.length !== 2) {
+      Sound.Flip.play();
       setSelectedCard([...selectedCard, { index, cardId }]);
-      toggle();
     }
 
   }
@@ -24,7 +32,7 @@ function GameBoard(props) {
     const timer = setInterval(() => {
       setCounter(counter - 1);
     }, 1000);
-    if (counter == 0) {
+    if (counter === 0) {
       checkResult();
       clearInterval(timer);
     }
@@ -34,17 +42,24 @@ function GameBoard(props) {
   function checkResult() {
 
     if (cards.length !== 12) {
+      Sound.looser.play();
       alert(" You lost");
+      reset();
     } else {
+      Sound.winner.play();
       alert(" You Won the Game");
+      reset();
     }
     setSelectedCard([]);
     setCards([]);
 
-  } React.useEffect(() => {
+  }
+
+  React.useEffect(() => {
 
     if (selectedCard.length === 2) {
       if (selectedCard[0].cardId === selectedCard[1].cardId) {
+        Sound.matchCard.play();
         setCards([...cards, selectedCard[0].index, selectedCard[1].index])
       }
       setTimeout(() => { setSelectedCard([]) }, 1200)
@@ -52,8 +67,11 @@ function GameBoard(props) {
   }, [selectedCard, cards])
 
   const reset = () => {
+    Sound.BackGroundSound.stop()
     setSelectedCard([]);
+    setPlaying(false)
     setCards([]);
+
     setCounter(COUNTER);
     props.start();
   }
@@ -61,8 +79,10 @@ function GameBoard(props) {
   return (
     <div className="container">
       <div class="container-card">
+
         {props.cardData?.map((cardImage, index) => (
           <Card
+            key={cardImage.id + index}
             selectedCard={selectedCard}
             cardImage={cardImage}
             selectedCards={selectedCards}
@@ -75,9 +95,12 @@ function GameBoard(props) {
       </div>
       <div class="container-button">
         <button onClick={reset} class="button"> Restart </button>
-        <span class="counter"> {counter} </span>  </div>
-        <button onClick={toggle}>{playing ? "Pause" : "Play"}</button>
- </div>
+        <button class="button" onClick={() => setPlaying(!isPlaying)}>{isPlaying ?
+
+          <i class="icon fa fa-volume-off"></i> : <i class="icon fa fa-volume-up"></i>}</button>
+        <span class="counter"> {counter} </span>
+      </div>
+    </div>
   );
 }
 
