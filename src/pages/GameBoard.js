@@ -9,6 +9,7 @@ function GameBoard(props) {
   const [counter, setCounter] = React.useState(COUNTER);
   const [selectedCard, setSelectedCard] = React.useState([]);
   const [isPlaying, setPlaying] = React.useState(false);
+  const [isGameOver, setGameOver] = React.useState(false);
 
 
   React.useEffect(() => {
@@ -32,37 +33,33 @@ function GameBoard(props) {
     const timer = setInterval(() => {
       setCounter(counter - 1);
     }, 1000);
-    if (counter === 0) {
-      checkResult();
-      clearInterval(timer);
+    checkResult();
+    if (counter === 0 || isGameOver) {
+          clearInterval(timer);
     }
     return () => clearInterval(timer);
   }, [counter]);
 
   function checkResult() {
-
-    if (cards.length !== 12) {
+    if ((cards.length !== 12 && counter===0)  || counter===0) {
       Sound.looser.play();
       alert(" You lost");
       reset();
-    } else {
+    } else  if (cards.length === 12 && counter>0) {
       Sound.winner.play();
       alert(" You Won the Game");
       reset();
     }
-    setSelectedCard([]);
-    setCards([]);
 
   }
 
   React.useEffect(() => {
-
     if (selectedCard.length === 2) {
       if (selectedCard[0].cardId === selectedCard[1].cardId) {
-        Sound.matchCard.play();
-        setCards([...cards, selectedCard[0].index, selectedCard[1].index])
+        Sound.matchCard.play();  setCards([...cards, selectedCard[0].index, selectedCard[1].index])
+        setSelectedCard([]);
       }
-      setTimeout(() => { setSelectedCard([]) }, 1200)
+      setTimeout(() => { setSelectedCard([]) }, 800)
     }
   }, [selectedCard, cards])
 
@@ -71,8 +68,8 @@ function GameBoard(props) {
     setSelectedCard([]);
     setPlaying(false)
     setCards([]);
-
     setCounter(COUNTER);
+    setGameOver(true);
     props.start();
   }
 

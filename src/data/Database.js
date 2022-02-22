@@ -98,21 +98,18 @@ const HORROR =[
   {'id':uuid(),'img':horror15}
 ]
 
-const CARD_DATA ={
+export const CARD_DATA ={
   1:POKOMON,
   2:NARUTO,
   3:HORROR
 
 }
 
-   
-
- export default { CARD_DATA }
 
 function uuid() {
     var u = '', i = 0;
     while (i++ < 36) {
-      var c = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'[i - 1], r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+      var c = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'[i - 1], r = Math.random() * 16 | 0, v = c === 'x' ? r : (r && 0x3 | 0x8);
       u += (c === '-' || c === '4') ? c : v.toString(16)
     }
     return u;
